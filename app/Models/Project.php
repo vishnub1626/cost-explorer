@@ -15,4 +15,12 @@ class Project extends Model
     {
         return $this->hasMany(Cost::class);
     }
+
+    public function costTypes()
+    {
+        return $this->belongsToMany(
+            CostType::class,
+            'costs'
+        )->as('cost')->withPivot('amount');
+    }
 }
