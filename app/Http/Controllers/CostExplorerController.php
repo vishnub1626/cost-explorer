@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Support\CostTreeBuilder;
+use App\Support\UpdateAmounts;
 
 class CostExplorerController extends Controller
 {
@@ -15,13 +16,13 @@ class CostExplorerController extends Controller
             ->get();
 
         $clients = $clients->map(function ($client) {
-            return [
+            return (object) [
                 'id' => $client->id,
                 'name' => $client->name,
                 'type' => 'client',
                 'amount' => 0,
                 'children' => $client->projects->map(function ($project) {
-                    return [
+                    return (object) [
                         'id' => $project->id,
                         'name' => $project->title,
                         'type' => 'project',
@@ -33,7 +34,7 @@ class CostExplorerController extends Controller
         });
 
         return response()->json([
-            'data' => $clients
+            'data' => (new UpdateAmounts)->execute($clients)
         ]);
     }
 }

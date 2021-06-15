@@ -10,17 +10,17 @@ class CostTreeBuilder
     {
         $result = collect();
 
-        foreach ($costTypes as $index => $cost) {
-            if ($cost->parent_id == $root) {
+        foreach ($costTypes as $index => $costType) {
+            if ($costType->parent_id == $root) {
                 $costTypes->forget($index);
-                $cost->children = $this->execute($costTypes, $cost->id);
+                $costType->children = $this->execute($costTypes, $costType->id);
 
-                $result->push((object)[
-                    'id' => $cost->id,
-                    'name' => $cost->name,
+                $result->push((object) [
+                    'id' => $costType->id,
+                    'name' => $costType->name,
                     'type' => 'cost',
-                    'amount' => $cost->cost->amount,
-                    'children' => $cost->children
+                    'amount' => (float) $costType->cost->amount,
+                    'children' => $costType->children,
                 ]);
             }
         }
