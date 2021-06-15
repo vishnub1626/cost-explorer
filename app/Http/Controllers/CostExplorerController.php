@@ -46,6 +46,7 @@ class CostExplorerController extends Controller
         );
 
         return response()->json([
+            'query' => urldecode(request()->fullUrl()),
             'data' => (new UpdateAmounts)->execute($clients)
         ]);
     }

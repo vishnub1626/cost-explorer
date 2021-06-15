@@ -22,7 +22,7 @@ class CostExplorerTest extends TestCase
         $response = $this->json('GET', '/explorer');
 
         $response->assertStatus(200)
-            ->assertExactJson([
+            ->assertJson([
                 'data' => $clients->map(function ($client) {
                     return [
                         'id' => $client->id,
@@ -50,7 +50,8 @@ class CostExplorerTest extends TestCase
 
         $response->assertJson(
             fn (AssertableJson $json) =>
-            $json->has('data.0.children', 3)
+            $json->has('query')
+                ->has('data.0.children', 3)
         );
     }
 
@@ -91,7 +92,8 @@ class CostExplorerTest extends TestCase
 
         $response->assertJson(
             fn (AssertableJson $json) =>
-            $json->has('data.0.children.0.children', 2)
+            $json->has('query')
+                ->has('data.0.children.0.children', 2)
         );
     }
 
@@ -144,7 +146,8 @@ class CostExplorerTest extends TestCase
 
         $response->assertJson(
             fn (AssertableJson $json) =>
-            $json->has('data.0.children.0.children', 1)
+            $json->has('query')
+                ->has('data.0.children.0.children', 1)
                 ->has('data.0.children.0.children.0.children', 2)
         );
     }
