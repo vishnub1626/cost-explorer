@@ -13,7 +13,7 @@ class ProjectResource extends JsonResource
             'name' => $this->title,
             'amount' => 0,
             'type' => 'project',
-            'children' => [],
+            'children' => CostResource::collection($this->costs),
         ];
     }
 }

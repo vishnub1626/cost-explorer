@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class Cost extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    public function costs()
+    public function type()
     {
-        return $this->hasMany(Cost::class);
+        return $this->belongsTo(CostType::class, 'cost_type_id');
     }
 }
