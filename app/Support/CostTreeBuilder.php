@@ -19,7 +19,7 @@ class CostTreeBuilder
                     'id' => $costType->id,
                     'name' => $costType->name,
                     'type' => 'cost',
-                    'amount' => (float) $costType->cost->amount,
+                    'amount' => (float) $costType->amount,
                     'children' => $costType->children,
                 ]);
             }

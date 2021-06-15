@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Queries\CostTypesQuery;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,16 +12,9 @@ class Project extends Model
 
     public $timestamps = false;
 
-    public function costs()
+    public function costTypes($costTypeIds = [])
     {
-        return $this->hasMany(Cost::class);
-    }
-
-    public function costTypes()
-    {
-        return $this->belongsToMany(
-            CostType::class,
-            'costs'
-        )->as('cost')->withPivot('amount');
+        return (new CostTypesQuery)
+            ->execute($this->id, $costTypeIds);
     }
 }

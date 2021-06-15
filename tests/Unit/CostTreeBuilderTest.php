@@ -15,41 +15,31 @@ class CostTreeBuilderTest extends TestCase
                 'id' => 1,
                 'name' => 'Design',
                 'parent_id' => null,
-                'cost' => (object) [
-                    'amount' => 300
-                ]
+                'amount' => 300
             ],
             (object)[
                 'id' => 2,
                 'name' => 'Web Design',
                 'parent_id' => 1,
-                'cost' => (object) [
-                    'amount' => 200
-                ]
+                'amount' => 200
             ],
             (object)[
                 'id' => 3,
                 'name' => 'Logo Design',
                 'parent_id' => 1,
-                'cost' => (object) [
-                    'amount' => 100
-                ]
+                'amount' => 100
             ],
             (object)[
                 'id' => 4,
                 'name' => 'Development',
                 'parent_id' => null,
-                'cost' => (object) [
-                    'amount' => 300
-                ]
+                'amount' => 300
             ],
             (object)[
                 'id' => 5,
                 'name' => 'Back End Development',
                 'parent_id' => 4,
-                'cost' => (object) [
-                    'amount' => 200
-                ]
+                'amount' => 200
             ],
         ]);
 

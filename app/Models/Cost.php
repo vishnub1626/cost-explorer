@@ -10,9 +10,4 @@ class Cost extends Model
     use HasFactory;
 
     public $timestamps = false;
-
-    public function type()
-    {
-        return $this->belongsTo(CostType::class, 'cost_type_id');
-    }
 }
