@@ -15,19 +15,26 @@ class CostExplorerController extends Controller
                 request('client_id'),
                 fn ($query, $clientIds) => $query->whereIn('id', $clientIds)
             )
-            ->with('projects')
+            ->when(
+                request('project_id'),
+                fn ($query, $projectIds) => $query->whereHas(
+                    'projects',
+                    fn ($query) => $query->whereIn('id', $projectIds)
+                )->with([
+                    'projects' => fn ($query) => $query->whereIn('id', request('project_id'))
+                ]),
+                fn ($query) => $query->with('projects')
+            )
             ->get();
 
         $clients = $clients->map(
-            fn ($client) =>
-            (object) [
+            fn ($client) => (object) [
                 'id' => $client->id,
                 'name' => $client->name,
                 'type' => 'client',
                 'amount' => 0,
                 'children' => $client->projects->map(
-                    fn ($project) =>
-                    (object) [
+                    fn ($project) => (object) [
                         'id' => $project->id,
                         'name' => $project->title,
                         'type' => 'project',
