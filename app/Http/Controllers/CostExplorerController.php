@@ -12,6 +12,10 @@ class CostExplorerController extends Controller
     public function index(Request $request)
     {
         $clients = Client::query()
+            ->when(
+                request('client_id'),
+                fn ($query, $clientIds) => $query->whereIn('id', $clientIds)
+            )
             ->with('projects.costTypes')
             ->get();
 
