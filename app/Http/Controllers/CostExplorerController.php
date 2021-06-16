@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Support\CostTreeBuilder;
 use App\Support\UpdateAmounts;
+use App\Queries\CostTypesQuery;
+use App\Support\CostTreeBuilder;
 
 class CostExplorerController extends Controller
 {
@@ -27,6 +28,12 @@ class CostExplorerController extends Controller
             )
             ->get();
 
+        $costTypes = (new CostTypesQuery)
+            ->execute(
+                $clients->pluck('projects')->flatten()->pluck('id')->toArray(),
+                request('cost_type_id')
+            );
+
         $clients = $clients->map(
             fn ($client) => (object) [
                 'id' => $client->id,
@@ -39,7 +46,8 @@ class CostExplorerController extends Controller
                         'name' => $project->title,
                         'type' => 'project',
                         'amount' => 0,
-                        'children' => (new CostTreeBuilder)->execute($project->costTypes(request('cost_type_id')))
+                        'children' => (new CostTreeBuilder)
+                            ->execute($costTypes->where('project_id', $project->id))
                     ]
                 )
             ]
